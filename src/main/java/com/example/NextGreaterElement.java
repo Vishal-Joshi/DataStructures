@@ -21,40 +21,53 @@ public class NextGreaterElement {
             }
 
             Stack<Integer> stack = new Stack<>();
-            stack.push(listOfIntegers.get(0));
             NextGreaterElement nextGreaterElement = new NextGreaterElement();
-            for (int index = 1; index < listOfIntegers.size(); index++) {
-                for (Integer lesserThanNextIntegers : nextGreaterElement.findNextGreaterElement(listOfIntegers.get(index), stack)) {
-                    System.out.print(listOfIntegers.get(index));
-                    System.out.print(" ");
-                }
-                stack.push(listOfIntegers.get(index));
-            }
-            if (!stack.empty()) {
-                System.out.print(-1);
+            stack.push(listOfIntegers.get(0));
+            int currentIndex = 1;//not 0 as starting is 1. get(0) is already in stack
+            int[] resultantIntegers = new int[listOfIntegers.size()];
+            int[] nextGreaterElementResult = nextGreaterElement.findNextGreaterElement(listOfIntegers, currentIndex, stack, resultantIntegers);
+            for (int index = 0; index < nextGreaterElementResult.length; index++) {
+                System.out.print(nextGreaterElementResult[index]);
             }
             System.out.println();
         }
     }
 
-    public List<Integer> findNextGreaterElement(int next, Stack<Integer> stackOfElements) {
-        List<Integer> resultantIntegers = new ArrayList<>();
-        Integer poppedElement = stackOfElements.pop();
-        if (poppedElement < next) {
-            resultantIntegers.add(poppedElement);
-            boolean shouldContinue = true;
-            while (!stackOfElements.empty() && shouldContinue) {
-                poppedElement = stackOfElements.pop();
+    public int[] findNextGreaterElement(List<Integer> listOfIntegers, int currentIndex, Stack<Integer> stackOfElements, int[] resultantIntegers) {
+
+        //put key value based
+        // integer with index vise in stack
+        //so that while retrieving you can take out with index
+        if (listOfIntegers.size() <= currentIndex) {
+            while (!stackOfElements.empty()) {
+                resultantIntegers[listOfIntegers.indexOf(stackOfElements.pop())] = -1;
+            }
+            return resultantIntegers;
+        } else {
+            Integer next = listOfIntegers.get(currentIndex);
+            if (!stackOfElements.empty()) {
+                Integer poppedElement = stackOfElements.pop();
                 if (poppedElement < next) {
-                    resultantIntegers.add(poppedElement);
-                    shouldContinue = true;
+                    resultantIntegers[listOfIntegers.indexOf(poppedElement)] = next;
+                    boolean shouldContinue = true;
+                    while (!stackOfElements.empty() && shouldContinue) {
+                        poppedElement = stackOfElements.pop();
+                        if (poppedElement < next) {
+                            resultantIntegers[listOfIntegers.indexOf(poppedElement)] = next;
+                            shouldContinue = true;
+                        } else {
+                            stackOfElements.push(poppedElement);
+                            shouldContinue = false;
+                        }
+                    }
+
                 } else {
-                    shouldContinue = false;
+                    stackOfElements.push(poppedElement);
                 }
             }
-        } else {
-            stackOfElements.push(poppedElement);
+            stackOfElements.push(next);
+            return findNextGreaterElement(listOfIntegers, ++currentIndex, stackOfElements, resultantIntegers);
         }
-        return resultantIntegers;
+
     }
 }
