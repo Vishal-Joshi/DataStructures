@@ -5,12 +5,17 @@ public class RotateAndDelete {
     public static void main(String[] args) {
         RotateAndDelete rotateAndDelete = new RotateAndDelete();
         int[] inputArray = {1, 2, 3, 4, 5, 6};
-        for (int i = 0; (i < inputArray.length || inputArray.length == 1); i++) {
+        for (int i = 0; inputArray.length > 1; i++) {
             int n = inputArray.length;
             rotateAndDelete.performClockWiseRotation(inputArray);
-            inputArray = rotateAndDelete.deleteNthElement(inputArray, n - i - 1);
-            //rotateAndDelete.printArray(inputArray);
+
+            int indexToDelete = n - i - 1;
+            if (indexToDelete < 0) {
+                indexToDelete = 0;
+            }
+            inputArray = rotateAndDelete.deleteNthElement(inputArray, indexToDelete);
         }
+        rotateAndDelete.printArray(inputArray);
     }
 
     private int[] performClockWiseRotation(int[] inputArray) {
@@ -23,8 +28,6 @@ public class RotateAndDelete {
             elementToStore = tempElementToStore;
         }
         inputArray[0] = lastElement;
-        System.out.print("rotation-->");
-        printArray(inputArray);
         return inputArray;
     }
 
@@ -34,21 +37,17 @@ public class RotateAndDelete {
         if (size == indexToDelete + 1) {
             newArray = new int[size - 1];
             System.arraycopy(inputArray, 0, newArray, 0, size - 1);
-            printArray(newArray);
-            return newArray;
         } else {
             newArray = new int[size - 1];
             System.arraycopy(inputArray, 0, newArray, 0, indexToDelete);
             System.arraycopy(inputArray, indexToDelete + 1, newArray, indexToDelete, size - indexToDelete - 1);
-            printArray(newArray);
-            return newArray;
         }
+        return newArray;
     }
 
     private void printArray(int[] array) {
         for (int i : array) {
-            System.out.print(i + " ");
+            System.out.println(i);
         }
-        System.out.println();
     }
 }
