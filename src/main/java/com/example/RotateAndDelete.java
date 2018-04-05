@@ -1,21 +1,42 @@
 package com.example;
 
+import java.util.Scanner;
+
 public class RotateAndDelete {
 
     public static void main(String[] args) {
         RotateAndDelete rotateAndDelete = new RotateAndDelete();
-        int[] inputArray = {1, 2, 3, 4, 5, 6};
-        for (int i = 0; inputArray.length > 1; i++) {
-            int n = inputArray.length;
-            rotateAndDelete.performClockWiseRotation(inputArray);
-
-            int indexToDelete = n - i - 1;
-            if (indexToDelete < 0) {
-                indexToDelete = 0;
+        Scanner scanner = new Scanner(System.in);
+        int numberOfTestCase = Integer.parseInt(scanner.nextLine().trim());
+        //System.out.println("number of test cases: " + numberOfTestCase);
+        int[][] inputArrays = new int[numberOfTestCase][];
+        int allArraysCount = 0;
+        for (int testCase = 0; testCase < numberOfTestCase; testCase++) {
+            int lengthOfArray = Integer.parseInt(scanner.nextLine().trim());
+            //System.out.println("array length: " + lengthOfArray);
+            int[] inputArray = new int[lengthOfArray];
+            String arrayElements = scanner.nextLine().trim();
+            //System.out.println("array elements: " + arrayElements);
+            int count = 0;
+            for (String stringArrayElement : arrayElements.split(" ")) {
+                inputArray[count++] = Integer.parseInt(stringArrayElement);
             }
-            inputArray = rotateAndDelete.deleteNthElement(inputArray, indexToDelete);
+            inputArrays[allArraysCount++] = inputArray;
         }
-        rotateAndDelete.printArray(inputArray);
+
+        for (int[] inputArray : inputArrays) {
+            for (int i = 0; inputArray.length > 1; i++) {
+                int n = inputArray.length;
+                rotateAndDelete.performClockWiseRotation(inputArray);
+
+                int indexToDelete = n - i - 1;
+                if (indexToDelete < 0) {
+                    indexToDelete = 0;
+                }
+                inputArray = rotateAndDelete.deleteNthElement(inputArray, indexToDelete);
+            }
+            rotateAndDelete.printArray(inputArray);
+        }
     }
 
     private int[] performClockWiseRotation(int[] inputArray) {
