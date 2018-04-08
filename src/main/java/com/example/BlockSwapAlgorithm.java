@@ -23,7 +23,8 @@ public class BlockSwapAlgorithm {
             int[] newArray = new int[array.length];
             swap(array, 0, d, n - d);
             System.arraycopy(array, 0, newArray, 0, n - d);
-            int[] rotatedArray = leftRotate(divideArray(array, n - d), 2 * d - n, d);
+            int[] subArray = divideArray(array, n - d);
+            int[] rotatedArray = leftRotate(subArray, 2 * d - n, d);
             System.arraycopy(rotatedArray, 0, newArray, n - d, rotatedArray.length);
             return newArray;
         } else if (d == n - d) {
@@ -39,11 +40,13 @@ public class BlockSwapAlgorithm {
         return dividedArray;
     }
 
-    private int[] swap(int array[], int startIndexOfFirstSubArray, int startIndexOfOtherSubArray, int numberOfElements) {
+    private int[] swap(int[] array, int startIndexOfFirstSubArray, int startIndexOfOtherSubArray, int numberOfElements) {
         for (int index = 0; index < numberOfElements; index++) {
-            int temp = array[startIndexOfOtherSubArray];
-            array[startIndexOfOtherSubArray] = array[startIndexOfFirstSubArray];
-            array[startIndexOfFirstSubArray] = temp;
+            int resultantIndexOfOtherSubArray = startIndexOfOtherSubArray + index;
+            int resultantIndexOfFirstSubArray = startIndexOfFirstSubArray + index;
+            int temp = array[resultantIndexOfOtherSubArray];
+            array[resultantIndexOfOtherSubArray] = array[resultantIndexOfFirstSubArray];
+            array[resultantIndexOfFirstSubArray] = temp;
         }
         return array;
     }
