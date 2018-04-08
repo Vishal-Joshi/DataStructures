@@ -16,25 +16,31 @@ public class ReversalAlgorithm {
             for (String stringArrayElement : arrayElements.split(" ")) {
                 inputArray[count++] = Integer.parseInt(stringArrayElement);
             }
-            int displacement = Integer.parseInt(scanner.nextLine().trim());
-            reversalAlgorithm.printArray(reversalAlgorithm.leftRotateArray(inputArray, displacement));
+            int d = Integer.parseInt(scanner.nextLine().trim());
+            int n = inputArray.length;
+            int[] firstSubArray = new int[d];
+            int[] secondSubArray = new int[n - d];
+            System.arraycopy(inputArray, 0, firstSubArray, 0, d);
+            System.arraycopy(inputArray, d, secondSubArray, 0, n - d);
+            int[] reversedArray1 = reversalAlgorithm.reverseArray(firstSubArray);
+            int[] reversedArray2 = reversalAlgorithm.reverseArray(secondSubArray);
+            int[] reversedTotalArray = new int[n];
+            System.arraycopy(reversedArray1, 0, reversedTotalArray, 0, reversedArray1.length);
+            System.arraycopy(reversedArray2, 0, reversedTotalArray, reversedArray1.length, reversedArray2.length);
+
+            int[] reverseOfTotalArray = reversalAlgorithm.reverseArray(reversedTotalArray);
+            reversalAlgorithm.printArray(reverseOfTotalArray);
         }
 
     }
 
-    private int[] leftRotateArray(int[] inputArray, int displacement) {
-        for (int i = 0; i < displacement; i++) {
-            inputArray = leftRotateArrayByOne(inputArray);
+    private int[] reverseArray(int[] arrayToReverse) {
+        int n = arrayToReverse.length;
+        int[] newArray = new int[n];
+        for (int i = 0; i < n; i++) {
+            newArray[n - i - 1] = arrayToReverse[i];
         }
-        return inputArray;
-    }
-
-    private int[] leftRotateArrayByOne(int[] inputArray) {
-        int firstElement = inputArray[0];
-        int length = inputArray.length;
-        System.arraycopy(inputArray, 1, inputArray, 0, length - 1);
-        inputArray[length - 1] = firstElement;
-        return inputArray;
+        return newArray;
     }
 
     private void printArray(int[] array) {
