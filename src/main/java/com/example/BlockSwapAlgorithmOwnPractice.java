@@ -6,7 +6,7 @@ public class BlockSwapAlgorithmOwnPractice {
         BlockSwapAlgorithmOwnPractice blockSwapAlgorithmOwnPractice = new BlockSwapAlgorithmOwnPractice();
         int[] arrayToRotate = new int[]{1, 2, 3, 4, 5, 6, 7};
         int n = arrayToRotate.length;
-        int d = 2;
+        int d = 4;
         int[] rotatedArray = blockSwapAlgorithmOwnPractice.rotateArray(arrayToRotate, 0, n - 1, d, n);
         printArray(rotatedArray);
         System.out.println();
@@ -28,12 +28,12 @@ public class BlockSwapAlgorithmOwnPractice {
             }
             if (d < n - d) {
                 System.out.println("A is shorter");
-                swap(arrayToRotate, startIndex, d - 1, n - d, endIndex);
-                rotateArray(arrayToRotate, startIndex, n - d - 1, d, n - d);
+                swap(arrayToRotate, startIndex, startIndex + d - 1, startIndex + n - d, endIndex);
+                rotateArray(arrayToRotate, startIndex, startIndex + n - d - 1, d, n - d);
             } else if (d > n - d) {
                 System.out.println("B is shorter");
-                swap(arrayToRotate, startIndex, n - d - 1, d, endIndex);
-                rotateArray(arrayToRotate, startIndex + n - d, n - 1, 2 * d - n, n - d + 1);
+                swap(arrayToRotate, startIndex, startIndex + n - d - 1, startIndex + d, endIndex);
+                rotateArray(arrayToRotate, startIndex + n - d, startIndex + n - 1, 2 * d - n, n - d + 1);
             }
 
         }
