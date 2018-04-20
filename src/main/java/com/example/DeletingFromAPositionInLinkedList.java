@@ -12,7 +12,7 @@ public class DeletingFromAPositionInLinkedList {
         Node head = new Node(8, two);
         System.out.print("Before deletion: ");
         printLinkedList(head);
-        int positionToDelete = 1;
+        int positionToDelete = 3;
         Node iteration = deletingFromAPositionInLinkedList.deleteFromPosition(head, positionToDelete);
         System.out.print("After deletion: ");
         printLinkedList(iteration);
@@ -37,9 +37,8 @@ public class DeletingFromAPositionInLinkedList {
         int currentIndex = 0;
         Node theNextToYouWillBeDeleted = head;
         while ((currentIndex + 1) < position) {
-            theNextToYouWillBeDeleted = head.getNext();
+            theNextToYouWillBeDeleted = theNextToYouWillBeDeleted.getNext();
             currentIndex++;
-            System.out.println("current index" + currentIndex);
         }
         theNextToYouWillBeDeleted.setNext(theNextToYouWillBeDeleted.getNext().getNext());
         return head;
