@@ -26,6 +26,7 @@ public class IfSingleLinkedListIsPalindrome {
         Node slow = head;
         Node fast = head;
         Node prevOfSlow = null;
+        boolean result = false;
 
         while (fast != null && fast.getNext() != null) {
             prevOfSlow = slow;
@@ -33,34 +34,36 @@ public class IfSingleLinkedListIsPalindrome {
             fast = fast.getNext().getNext();
         }
 
-        Node secondHalf;
-        if (fast != null) {
-            //odd case
-            secondHalf = slow.getNext();
+        if (prevOfSlow != null) {
+            Node secondHalf;
+            if (fast != null) {
+                //odd case
+                secondHalf = slow.getNext();
 
-        } else {
-            secondHalf = slow;
-            //even case
-            //detach first and second half
-        }
-        prevOfSlow.setNext(null);
+            } else {
+                secondHalf = slow;
+                //even case
+                //detach first and second half
+            }
+            prevOfSlow.setNext(null);
 
 
-        //reverse second half
-        Node currentNode = secondHalf;
-        Node reversedList = null;
-        while (currentNode != null) {
-            reversedList = new Node(currentNode.getData(), reversedList);
-            currentNode = currentNode.getNext();
-        }
-        boolean result = compareListsForEquality(head, reversedList);
+            //reverse second half
+            Node currentNode = secondHalf;
+            Node reversedList = null;
+            while (currentNode != null) {
+                reversedList = new Node(currentNode.getData(), reversedList);
+                currentNode = currentNode.getNext();
+            }
+            result = compareListsForEquality(head, reversedList);
 
-        //reconstruct list
-        if (fast != null) {
-            //odd case
-            prevOfSlow.setNext(slow);
-        } else{
-            prevOfSlow.setNext(secondHalf);
+            //reconstruct list
+            if (fast != null) {
+                //odd case
+                prevOfSlow.setNext(slow);
+            } else {
+                prevOfSlow.setNext(secondHalf);
+            }
         }
 
         return result;
